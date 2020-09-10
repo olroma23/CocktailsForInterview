@@ -15,9 +15,17 @@ class NetworkService {
     private init() {}
     
     func request(type: String, completion: @escaping (Data?, Error?) -> Void) {
-        
         let params = self.prepareParams(type: type)
         let url = self.url(params: params)
+        var request = URLRequest(url: url)
+        request.httpMethod = "get"
+        print(request)
+        let task = createDataTask(from: request, completion: completion)
+        task.resume()
+    }
+    
+    func request(url: String, completion: @escaping (Data?, Error?) -> Void) {
+        guard let url = URL(string: url) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "get"
         print(request)

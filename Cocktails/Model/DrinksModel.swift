@@ -9,17 +9,21 @@
 import Foundation
 
 struct Result: Codable {
-    
     let drinks: [Drink]
-    
 }
 
 struct Drink: Codable {
-    
     let strDrink: String
     let strDrinkThumb: String
     let idDrink: String
-    
+}
+
+struct Categories: Codable {
+    let drinks: [DrinkCategory]
+}
+
+struct DrinkCategory: Codable {
+    let strCategory: String
 }
 
 

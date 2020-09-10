@@ -26,6 +26,18 @@ class NetworkDataFetcher {
         }
     }
     
+    func fetchData(url: String, completion: @escaping (Categories?) -> Void) {
+        NetworkService.shared.request(url: url) { (data, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+            } else {
+                let decoded = self.decodeJSON(type: Categories.self, from: data)
+                completion(decoded)
+            }
+        }
+    }
+    
     
     private func decodeJSON<T: Decodable>(type: T.Type, from data: Data?) -> T? {
         let decoder = JSONDecoder()
