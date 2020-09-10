@@ -9,21 +9,25 @@
 /* Begin PBXBuildFile section */
 		EC252FD9250A497100E69389 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FD8250A497100E69389 /* AppDelegate.swift */; };
 		EC252FDB250A497100E69389 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FDA250A497100E69389 /* SceneDelegate.swift */; };
-		EC252FDD250A497100E69389 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FDC250A497100E69389 /* ViewController.swift */; };
-		EC252FE0250A497100E69389 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC252FDE250A497100E69389 /* Main.storyboard */; };
 		EC252FE2250A497500E69389 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC252FE1250A497500E69389 /* Assets.xcassets */; };
 		EC252FE5250A497500E69389 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC252FE3250A497500E69389 /* LaunchScreen.storyboard */; };
+		EC252FED250A514800E69389 /* CocktailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FEC250A514800E69389 /* CocktailsTableViewController.swift */; };
+		EC252FF6250A578500E69389 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FF5250A578500E69389 /* NetworkService.swift */; };
+		EC252FF9250A658000E69389 /* DrinksModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FF8250A658000E69389 /* DrinksModel.swift */; };
+		EC252FFB250A6D3700E69389 /* NetworkDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FFA250A6D3700E69389 /* NetworkDataFetcher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		EC252FD5250A497100E69389 /* Cocktails.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cocktails.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC252FD8250A497100E69389 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EC252FDA250A497100E69389 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		EC252FDC250A497100E69389 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		EC252FDF250A497100E69389 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EC252FE1250A497500E69389 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC252FE4250A497500E69389 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EC252FE6250A497500E69389 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC252FEC250A514800E69389 /* CocktailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailsTableViewController.swift; sourceTree = "<group>"; };
+		EC252FF5250A578500E69389 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		EC252FF8250A658000E69389 /* DrinksModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinksModel.swift; sourceTree = "<group>"; };
+		EC252FFA250A6D3700E69389 /* NetworkDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataFetcher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +60,49 @@
 		EC252FD7250A497100E69389 /* Cocktails */ = {
 			isa = PBXGroup;
 			children = (
+				EC252FF7250A656300E69389 /* Model */,
+				EC252FF4250A571700E69389 /* Services */,
+				EC252FF2250A56FA00E69389 /* Controller */,
 				EC252FD8250A497100E69389 /* AppDelegate.swift */,
 				EC252FDA250A497100E69389 /* SceneDelegate.swift */,
-				EC252FDC250A497100E69389 /* ViewController.swift */,
-				EC252FDE250A497100E69389 /* Main.storyboard */,
 				EC252FE1250A497500E69389 /* Assets.xcassets */,
 				EC252FE3250A497500E69389 /* LaunchScreen.storyboard */,
 				EC252FE6250A497500E69389 /* Info.plist */,
 			);
 			path = Cocktails;
+			sourceTree = "<group>";
+		};
+		EC252FF2250A56FA00E69389 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				EC252FEC250A514800E69389 /* CocktailsTableViewController.swift */,
+				EC252FF3250A570A00E69389 /* Cell */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		EC252FF3250A570A00E69389 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		EC252FF4250A571700E69389 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				EC252FF5250A578500E69389 /* NetworkService.swift */,
+				EC252FFA250A6D3700E69389 /* NetworkDataFetcher.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		EC252FF7250A656300E69389 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EC252FF8250A658000E69389 /* DrinksModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +165,6 @@
 			files = (
 				EC252FE5250A497500E69389 /* LaunchScreen.storyboard in Resources */,
 				EC252FE2250A497500E69389 /* Assets.xcassets in Resources */,
-				EC252FE0250A497100E69389 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +175,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC252FDD250A497100E69389 /* ViewController.swift in Sources */,
+				EC252FFB250A6D3700E69389 /* NetworkDataFetcher.swift in Sources */,
+				EC252FED250A514800E69389 /* CocktailsTableViewController.swift in Sources */,
 				EC252FD9250A497100E69389 /* AppDelegate.swift in Sources */,
+				EC252FF9250A658000E69389 /* DrinksModel.swift in Sources */,
+				EC252FF6250A578500E69389 /* NetworkService.swift in Sources */,
 				EC252FDB250A497100E69389 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,14 +187,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		EC252FDE250A497100E69389 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EC252FDF250A497100E69389 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		EC252FE3250A497500E69389 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -287,6 +319,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TA55CRFVW8;
 				INFOPLIST_FILE = Cocktails/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -305,6 +338,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TA55CRFVW8;
 				INFOPLIST_FILE = Cocktails/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
