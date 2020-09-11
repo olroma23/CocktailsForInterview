@@ -19,6 +19,7 @@
 		EC252FFF250A74D600E69389 /* DrinkViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FFE250A74D600E69389 /* DrinkViewCell.swift */; };
 		EC253001250AAFA400E69389 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC253000250AAFA400E69389 /* FilterTableViewController.swift */; };
 		EC253003250B671A00E69389 /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC253002250B671A00E69389 /* FilterViewCell.swift */; };
+		EC253007250BB52A00E69389 /* CurrentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC253006250BB52A00E69389 /* CurrentData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		EC252FFE250A74D600E69389 /* DrinkViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkViewCell.swift; sourceTree = "<group>"; };
 		EC253000250AAFA400E69389 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
 		EC253002250B671A00E69389 /* FilterViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewCell.swift; sourceTree = "<group>"; };
+		EC253006250BB52A00E69389 /* CurrentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				EC252FF8250A658000E69389 /* DrinksModel.swift */,
+				EC253006250BB52A00E69389 /* CurrentData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				EC252FFB250A6D3700E69389 /* NetworkDataFetcher.swift in Sources */,
 				EC252FFF250A74D600E69389 /* DrinkViewCell.swift in Sources */,
 				EC253001250AAFA400E69389 /* FilterTableViewController.swift in Sources */,
+				EC253007250BB52A00E69389 /* CurrentData.swift in Sources */,
 				EC253003250B671A00E69389 /* FilterViewCell.swift in Sources */,
 				EC252FED250A514800E69389 /* CocktailsTableViewController.swift in Sources */,
 				EC252FD9250A497100E69389 /* AppDelegate.swift in Sources */,

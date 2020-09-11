@@ -10,7 +10,7 @@ import UIKit
 
 class FilterTableViewController: UIViewController, UITableViewDelegate {
     
-    private var categories = [String]()
+    var categories = [String]()
     private let tableView = UITableView()
     private var applyButton: UIButton = {
         var button = UIButton(type: .system)
@@ -34,6 +34,17 @@ class FilterTableViewController: UIViewController, UITableViewDelegate {
         tableViewSetup()
         setupLayout()
         getData()
+        applyButton.addTarget(self, action: #selector(applyButtonAction), for: .touchUpInside)
+    }
+    
+    
+    @objc private func applyButtonAction() {
+        
+        if let mySelectedRows = tableView.indexPathsForSelectedRows {
+            CurrentData.selectedRows = mySelectedRows
+        }
+        CurrentData.currentCategories = self.categories
+        self.navigationController?.popViewController(animated: true)        
     }
     
     private func getData()  {
@@ -85,6 +96,9 @@ extension FilterTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FilterViewCell.reuseIdentifier, for: indexPath) as! FilterViewCell
         cell.nameLabel.text = categories[indexPath.row]
+        if CurrentData.selectedRows.contains(indexPath) {
+            cell.cellIsSelected = true
+        }
         return cell
     }
     
@@ -94,14 +108,21 @@ extension FilterTableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! FilterViewCell
-        cell.checkMark.alpha = 0
-        cell.backgroundColor = .systemBackground
+        cell.cellIsSelected = true
+        guard let category = cell.nameLabel.text else { return }
+        if let index = categories.firstIndex(of: category) {
+            categories.remove(at: index)
+        }
+        
+        print(indexPath)
+        
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! FilterViewCell
-        cell.checkMark.alpha = 1
-        cell.backgroundColor = .secondarySystemBackground
+        cell.cellIsSelected = false
+        guard let category = cell.nameLabel.text else { return }
+        categories.append(category)
     }
     
 }

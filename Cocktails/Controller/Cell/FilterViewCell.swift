@@ -26,26 +26,30 @@ class FilterViewCell: UITableViewCell {
         return imageView
     }()
     
+    var cellIsSelected: Bool? {
+        didSet {
+            if cellIsSelected! {
+                self.backgroundColor = .systemBackground
+                checkMark.alpha = 0
+            } else {
+                checkMark.alpha = 1
+                self.backgroundColor = .secondarySystemBackground
+
+            }
+        }
+    }
+    
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
         self.backgroundColor = .secondarySystemBackground
         setupLayout()
     }
-
     
-    override var isSelected: Bool {
-        didSet {
-        
-        }
-    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func updateState() {
-        checkMark.alpha = isSelected ? 0 : 1
     }
     
     private func setupLayout() {

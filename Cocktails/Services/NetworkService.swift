@@ -19,7 +19,6 @@ class NetworkService {
         let url = self.url(params: params)
         var request = URLRequest(url: url)
         request.httpMethod = "get"
-        print(request)
         let task = createDataTask(from: request, completion: completion)
         task.resume()
     }
@@ -28,7 +27,6 @@ class NetworkService {
         guard let url = URL(string: url) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "get"
-        print(request)
         let task = createDataTask(from: request, completion: completion)
         task.resume()
     }

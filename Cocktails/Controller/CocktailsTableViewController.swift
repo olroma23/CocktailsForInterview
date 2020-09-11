@@ -16,8 +16,11 @@ struct DrinksModelWithType {
 
 class CocktailsTableViewController: UITableViewController {
     
+    var categories: [String]?
+    
     private var drinks = [Drink]()
     private var groupedDrinks = [DrinksModelWithType]()
+    private var wasLoaded = false
     
     private lazy var filterBarButtonItem: UIBarButtonItem = {
         return UIBarButtonItem(image: UIImage(systemName: "slider.horizontal.3", withConfiguration: UIImage.SymbolConfiguration(weight: .regular)), style: .plain, target: self, action: #selector(filterBarButtonItemPressed))
@@ -26,15 +29,19 @@ class CocktailsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(DrinkViewCell.self, forCellReuseIdentifier: DrinkViewCell.reuseIdentifier)
-        
         setupNavigationBar()
-        
-        getDrinks(type: "Ordinary Drink")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        let data = CurrentData.currentCategories
+        data.forEach { getDrinks(type: $0) }
+        print(data)
+    }
     
     @objc func filterBarButtonItemPressed() {
-        navigationController?.present(FilterTableViewController(), animated: true)
+        groupedDrinks.removeAll()
+        drinks.removeAll()
+        navigationController?.pushViewController(FilterTableViewController(), animated: true)
     }
     
     private func getDrinks(type: String) {
@@ -44,7 +51,6 @@ class CocktailsTableViewController: UITableViewController {
             
             let groupedDrink = DrinksModelWithType(drinks: results.drinks, type: type)
             self?.groupedDrinks.append(groupedDrink)
-            
             self?.tableView.reloadData()
         }
     }
@@ -101,5 +107,7 @@ class CocktailsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
+    
+    
     
 }
