@@ -26,8 +26,8 @@ class NetworkDataFetcher {
         }
     }
     
-    func fetchData(url: String, completion: @escaping (Categories?) -> Void) {
-        NetworkService.shared.request(url: url) { (data, error) in
+    func fetchData(completion: @escaping (Categories?) -> Void) {
+        NetworkService.shared.request(url: "https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list") { (data, error) in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil)

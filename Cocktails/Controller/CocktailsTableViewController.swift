@@ -34,7 +34,7 @@ class CocktailsTableViewController: UITableViewController {
     
     
     @objc func filterBarButtonItemPressed() {
-        
+        navigationController?.present(FilterTableViewController(), animated: true)
     }
     
     private func getDrinks(type: String) {
@@ -65,8 +65,18 @@ class CocktailsTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return groupedDrinks.count > 0 ? groupedDrinks[section].type : " "
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        view.backgroundColor = .secondarySystemBackground
+        view.alpha = 0.9
+        let label = UILabel(frame: CGRect(x: 30, y: 0, width: tableView.frame.size.width, height: 40))
+        label.text = groupedDrinks.count > 0 ? groupedDrinks[section].type.uppercased() : " "
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.textColor = .secondaryLabel
+        
+        view.addSubview(label)
+        return view
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
