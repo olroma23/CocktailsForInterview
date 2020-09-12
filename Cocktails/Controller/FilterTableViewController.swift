@@ -11,8 +11,10 @@ import UIKit
 class FilterTableViewController: UIViewController, UITableViewDelegate {
     
     var categories = [String]()
-    var categoriesObserver = [String]()
     private let tableView = UITableView()
+    private var localCurrentCategories = [String]()
+    private var localSelectedRows = [IndexPath]()
+    
     private var applyButton: UIButton = {
         var button = UIButton(type: .system)
         button.setTitle("Apply", for: .normal)
@@ -39,21 +41,22 @@ class FilterTableViewController: UIViewController, UITableViewDelegate {
         applyButton.addTarget(self, action: #selector(applyButtonAction), for: .touchUpInside)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
+        localSelectedRows = CurrentData.selectedRows
+    }
+    
     
     @objc private func applyButtonAction() {
-        
-        if let mySelectedRows = tableView.indexPathsForSelectedRows {
-            CurrentData.selectedRows = mySelectedRows
-        }
-        CurrentData.currentCategories = self.categoriesObserver
-        self.navigationController?.popViewController(animated: true)        
+        CurrentData.currentCategories = localCurrentCategories
+        CurrentData.selectedRows = localSelectedRows
+        self.navigationController?.popViewController(animated: true)
     }
     
     private func getData()  {
         NetworkDataFetcher.shared.fetchData { [weak self] (category) in
             category?.drinks.forEach {
                 self?.categories.append($0.strCategory)
-                self?.categoriesObserver.append($0.strCategory)
             }
             self?.tableView.reloadData()
         }
@@ -99,8 +102,12 @@ extension FilterTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FilterViewCell.reuseIdentifier, for: indexPath) as! FilterViewCell
         cell.nameLabel.text = categories[indexPath.row]
-        if CurrentData.selectedRows.contains(indexPath) {
+        
+        if localSelectedRows.contains(indexPath) {
             cell.cellIsSelected = true
+            localCurrentCategories.append(categories[indexPath.row])
+        } else {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         }
         return cell
     }
@@ -111,20 +118,23 @@ extension FilterTableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! FilterViewCell
-        cell.cellIsSelected = true
+        cell.cellIsSelected = false
         guard let category = cell.nameLabel.text else { return }
-        if let index = categoriesObserver.firstIndex(of: category) {
-            categoriesObserver.remove(at: index)
-        }
-        print(indexPath)
         
+        if let index = localSelectedRows.firstIndex(of: indexPath) {
+              localSelectedRows.remove(at: index)
+          }
+        
+        if let index = localCurrentCategories.firstIndex(of: category) {
+            localCurrentCategories.remove(at: index)
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! FilterViewCell
-        cell.cellIsSelected = false
+        cell.cellIsSelected = true
         guard let category = cell.nameLabel.text else { return }
-        categoriesObserver.append(category)
+        localSelectedRows.append(indexPath)
+        localCurrentCategories.append(category)
     }
-    
 }

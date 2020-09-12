@@ -22,19 +22,19 @@ class FilterViewCell: UITableViewCell {
      var checkMark: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "checkmark", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.systemRed, renderingMode: .alwaysOriginal)
-        imageView.alpha = 1
+        imageView.alpha = 0
         return imageView
     }()
     
     var cellIsSelected: Bool? {
         didSet {
             if cellIsSelected! {
-                self.backgroundColor = .systemBackground
-                checkMark.alpha = 0
-            } else {
                 checkMark.alpha = 1
                 self.backgroundColor = .secondarySystemBackground
 
+            } else {
+                self.backgroundColor = .systemBackground
+                checkMark.alpha = 0
             }
         }
     }
@@ -43,7 +43,7 @@ class FilterViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        self.backgroundColor = .secondarySystemBackground
+        self.backgroundColor = .systemBackground
         setupLayout()
     }
     

@@ -9,7 +9,6 @@
 import UIKit
 
 struct DrinksModelWithType {
-    
     let drinks: [Drink]
     let type: String
 }
@@ -19,7 +18,7 @@ class CocktailsTableViewController: UITableViewController {
     private var categoriesForPagination = [String]()
     private var drinks = [Drink]()
     private var groupedDrinks = [DrinksModelWithType]()
-    private var wasLoaded = false
+    private var isLoading = false
     
     private lazy var filterBarButtonItem: UIBarButtonItem = {
         return UIBarButtonItem(image: UIImage(systemName: "slider.horizontal.3", withConfiguration: UIImage.SymbolConfiguration(weight: .regular)), style: .plain, target: self, action: #selector(filterBarButtonItemPressed))
@@ -32,6 +31,7 @@ class CocktailsTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
         let currentCategories = CurrentData.currentCategories
         
         for currentCategory in currentCategories {
@@ -39,6 +39,7 @@ class CocktailsTableViewController: UITableViewController {
             getDrinks(type: currentCategory)
             break
         }
+        isLoading = true
     }
     
     @objc func filterBarButtonItemPressed() {
@@ -48,18 +49,15 @@ class CocktailsTableViewController: UITableViewController {
         navigationController?.pushViewController(FilterTableViewController(), animated: true)
     }
     
-    private func getDrinks(type: String, isLoading: Bool = false) {
-        DispatchQueue.global().asyncAfter(deadline: isLoading ? .now() + 4 : .now()) {
-            NetworkDataFetcher.shared.fetchData(type: type) { [weak self] (results) in
-                guard let results = results else { return }
-                self?.drinks = results.drinks
-                
-                let groupedDrink = DrinksModelWithType(drinks: results.drinks, type: type)
-                self?.groupedDrinks.append(groupedDrink)
-                self?.tableView.reloadData()
-            }
+    private func getDrinks(type: String) {
+        NetworkDataFetcher.shared.fetchData(type: type) { [weak self] (results) in
+            guard let results = results else { return }
+            self?.drinks = results.drinks
+            
+            let groupedDrink = DrinksModelWithType(drinks: results.drinks, type: type)
+            self?.groupedDrinks.append(groupedDrink)
+            self?.tableView.reloadData()
         }
-        
     }
     
     private func setupNavigationBar() {
@@ -80,22 +78,26 @@ class CocktailsTableViewController: UITableViewController {
         return drinks.count
     }
     
-    
-    
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        view.backgroundColor = .secondarySystemBackground
-        view.alpha = 0.9
-        let label = UILabel(frame: CGRect(x: 30, y: 0, width: tableView.frame.size.width, height: 40))
-        label.text = groupedDrinks.count > 0 ? groupedDrinks[section].type.uppercased() : " "
-        label.font = UIFont.boldSystemFont(ofSize: 14)
-        label.textColor = .secondaryLabel
         
-        view.addSubview(label)
-        return view
+        if groupedDrinks.count > 0 {
+            let view = UIView()
+            view.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            view.backgroundColor = .secondarySystemBackground
+            view.alpha = 0.9
+            let label = UILabel(frame: CGRect(x: 30, y: 0, width: tableView.frame.size.width, height: 40))
+            label.text = groupedDrinks[section].type.uppercased()
+            label.font = UIFont.boldSystemFont(ofSize: 14)
+            label.textColor = .secondaryLabel
+            
+            view.addSubview(label)
+            return view
+        } else {
+            let view = UIView()
+            return view
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -112,9 +114,29 @@ class CocktailsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CocktailViewCell.reuseIdentifier, for: indexPath) as! CocktailViewCell
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-        cell.nameLabel.text = groupedDrinks[indexPath.section].drinks[indexPath.row].strDrink
-        cell.stringImageURL = groupedDrinks[indexPath.section].drinks[indexPath.row].strDrinkThumb
+        if groupedDrinks.count > 0 {
+            cell.nameLabel.text = groupedDrinks[indexPath.section].drinks[indexPath.row].strDrink
+            cell.stringImageURL = groupedDrinks[indexPath.section].drinks[indexPath.row].strDrinkThumb
+        } else {
+            
+        }
+        
+        let totalRows = tableView.numberOfRows(inSection: indexPath.section)
+        
+        if indexPath.row == totalRows - 1 {
+            print("last e-ment")
+            
+            if !categoriesForPagination.contains("Cocktail") {
+                getDrinks(type: "Cocktail")
+                categoriesForPagination.append("Cocktail")
+            }
+        }
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -122,29 +144,29 @@ class CocktailsTableViewController: UITableViewController {
     }
     
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let position = scrollView.contentOffset.y
-        if position > (tableView.contentSize.height - scrollView.frame.size.height) {
-            
-            self.tableView.tableFooterView =  createSpinnerFooter()
-            let currentCategories = CurrentData.currentCategories
-            
-            for currentCategory in currentCategories {
-                if categoriesForPagination.contains(currentCategory) {
-                    continue
-                } else {
-                    categoriesForPagination.append(currentCategory)
-                    getDrinks(type: currentCategory, isLoading: true)
-                    DispatchQueue.main.async {
-                        self.tableView.tableFooterView = nil
-                    }
-                    break
-                }
-                
-            }
-            
-        }
-    }
+    //    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    //        let position = scrollView.contentOffset.y
+    //        if position > (tableView.contentSize.height - scrollView.frame.size.height) {
+    //
+    //            self.tableView.tableFooterView =  createSpinnerFooter()
+    //            let currentCategories = CurrentData.currentCategories
+    //
+    //            for currentCategory in currentCategories {
+    //                if categoriesForPagination.contains(currentCategory) {
+    //                    continue
+    //                } else {
+    //                    categoriesForPagination.append(currentCategory)
+    //                    getDrinks(type: currentCategory)
+    //                    DispatchQueue.main.async {
+    //                        self.tableView.tableFooterView = nil
+    //                    }
+    //                    break
+    //                }
+    //
+    //            }
+    //
+    //        }
+    //    }
 }
 
 
