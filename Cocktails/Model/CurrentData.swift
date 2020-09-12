@@ -15,13 +15,13 @@ class CurrentData {
     
     static var selectedRows = [IndexPath]()
     
-    static func getCategories(completion: @escaping ([String]) -> () ) {
-        var cat = [String]()
-        NetworkDataFetcher.shared.fetchData { (category) in
-            category?.drinks.forEach {
-                cat.append($0.strCategory)
-            }
-            completion(cat)
-        }
-    }
+//    static func getCategories(completion: @escaping ([String]) -> () ) {
+//        var cat = [String]()
+//        NetworkDataFetcher.shared.fetchData { (category) in
+//            category?.drinks.forEach {
+//                cat.append($0.strCategory)
+//            }
+//            completion(cat)
+//        }
+//    }
 }

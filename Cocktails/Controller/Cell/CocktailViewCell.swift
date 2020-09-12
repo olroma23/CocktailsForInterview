@@ -1,5 +1,5 @@
 //
-//  DrinkViewCell.swift
+//  CocktailViewCell.swift
 //  Cocktails
 //
 //  Created by Roman Oliinyk on 10.09.2020.
@@ -9,7 +9,7 @@
 import UIKit
 import SDWebImage
 
-class DrinkViewCell: UITableViewCell {
+class CocktailViewCell: UITableViewCell {
     
     static let reuseIdentifier = "CellID"
     
@@ -17,6 +17,7 @@ class DrinkViewCell: UITableViewCell {
         let lbl = UILabel()
         lbl.textColor = .label
         lbl.font = UIFont.boldSystemFont(ofSize: 14)
+        lbl.numberOfLines = 2
         return lbl
     }()
     
@@ -67,10 +68,11 @@ class DrinkViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
             nameLabel.leadingAnchor.constraint(equalTo: self.photoImageView.trailingAnchor, constant: 30),
+            nameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -30),
             
             photoImageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
             photoImageView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-            photoImageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 30),
+            photoImageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             photoImageView.widthAnchor.constraint(equalToConstant: 80),
         ])
         

@@ -11,6 +11,7 @@ import UIKit
 class FilterTableViewController: UIViewController, UITableViewDelegate {
     
     var categories = [String]()
+    var categoriesObserver = [String]()
     private let tableView = UITableView()
     private var applyButton: UIButton = {
         var button = UIButton(type: .system)
@@ -34,6 +35,7 @@ class FilterTableViewController: UIViewController, UITableViewDelegate {
         tableViewSetup()
         setupLayout()
         getData()
+        self.title = "Filter data"
         applyButton.addTarget(self, action: #selector(applyButtonAction), for: .touchUpInside)
     }
     
@@ -43,7 +45,7 @@ class FilterTableViewController: UIViewController, UITableViewDelegate {
         if let mySelectedRows = tableView.indexPathsForSelectedRows {
             CurrentData.selectedRows = mySelectedRows
         }
-        CurrentData.currentCategories = self.categories
+        CurrentData.currentCategories = self.categoriesObserver
         self.navigationController?.popViewController(animated: true)        
     }
     
@@ -51,6 +53,7 @@ class FilterTableViewController: UIViewController, UITableViewDelegate {
         NetworkDataFetcher.shared.fetchData { [weak self] (category) in
             category?.drinks.forEach {
                 self?.categories.append($0.strCategory)
+                self?.categoriesObserver.append($0.strCategory)
             }
             self?.tableView.reloadData()
         }
@@ -75,7 +78,7 @@ class FilterTableViewController: UIViewController, UITableViewDelegate {
             tableView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -200),
+            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -150),
             
             applyButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30),
             applyButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30),
@@ -103,17 +106,16 @@ extension FilterTableViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 55
+        return 40
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! FilterViewCell
         cell.cellIsSelected = true
         guard let category = cell.nameLabel.text else { return }
-        if let index = categories.firstIndex(of: category) {
-            categories.remove(at: index)
+        if let index = categoriesObserver.firstIndex(of: category) {
+            categoriesObserver.remove(at: index)
         }
-        
         print(indexPath)
         
     }
@@ -122,7 +124,7 @@ extension FilterTableViewController: UITableViewDataSource {
         let cell = tableView.cellForRow(at: indexPath) as! FilterViewCell
         cell.cellIsSelected = false
         guard let category = cell.nameLabel.text else { return }
-        categories.append(category)
+        categoriesObserver.append(category)
     }
     
 }

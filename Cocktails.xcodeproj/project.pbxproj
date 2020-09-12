@@ -16,7 +16,7 @@
 		EC252FF6250A578500E69389 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FF5250A578500E69389 /* NetworkService.swift */; };
 		EC252FF9250A658000E69389 /* DrinksModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FF8250A658000E69389 /* DrinksModel.swift */; };
 		EC252FFB250A6D3700E69389 /* NetworkDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FFA250A6D3700E69389 /* NetworkDataFetcher.swift */; };
-		EC252FFF250A74D600E69389 /* DrinkViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FFE250A74D600E69389 /* DrinkViewCell.swift */; };
+		EC252FFF250A74D600E69389 /* CocktailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC252FFE250A74D600E69389 /* CocktailViewCell.swift */; };
 		EC253001250AAFA400E69389 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC253000250AAFA400E69389 /* FilterTableViewController.swift */; };
 		EC253003250B671A00E69389 /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC253002250B671A00E69389 /* FilterViewCell.swift */; };
 		EC253007250BB52A00E69389 /* CurrentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC253006250BB52A00E69389 /* CurrentData.swift */; };
@@ -36,7 +36,7 @@
 		EC252FF5250A578500E69389 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		EC252FF8250A658000E69389 /* DrinksModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinksModel.swift; sourceTree = "<group>"; };
 		EC252FFA250A6D3700E69389 /* NetworkDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataFetcher.swift; sourceTree = "<group>"; };
-		EC252FFE250A74D600E69389 /* DrinkViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkViewCell.swift; sourceTree = "<group>"; };
+		EC252FFE250A74D600E69389 /* CocktailViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailViewCell.swift; sourceTree = "<group>"; };
 		EC253000250AAFA400E69389 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
 		EC253002250B671A00E69389 /* FilterViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewCell.swift; sourceTree = "<group>"; };
 		EC253006250BB52A00E69389 /* CurrentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentData.swift; sourceTree = "<group>"; };
@@ -117,7 +117,7 @@
 		EC252FF3250A570A00E69389 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				EC252FFE250A74D600E69389 /* DrinkViewCell.swift */,
+				EC252FFE250A74D600E69389 /* CocktailViewCell.swift */,
 				EC253002250B671A00E69389 /* FilterViewCell.swift */,
 			);
 			path = Cell;
@@ -256,7 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC252FFB250A6D3700E69389 /* NetworkDataFetcher.swift in Sources */,
-				EC252FFF250A74D600E69389 /* DrinkViewCell.swift in Sources */,
+				EC252FFF250A74D600E69389 /* CocktailViewCell.swift in Sources */,
 				EC253001250AAFA400E69389 /* FilterTableViewController.swift in Sources */,
 				EC253007250BB52A00E69389 /* CurrentData.swift in Sources */,
 				EC253003250B671A00E69389 /* FilterViewCell.swift in Sources */,
