@@ -26,6 +26,8 @@ class NetworkDataFetcher {
         }
     }
     
+    // filters fetching
+    
     func fetchData(completion: @escaping (Categories?) -> Void) {
         NetworkService.shared.request(url: "https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list") { (data, error) in
             if let error = error {

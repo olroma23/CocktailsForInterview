@@ -42,10 +42,8 @@ class FilterTableViewController: UIViewController, UITableViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("viewWillAppear")
         localSelectedRows = CurrentData.selectedRows
     }
-    
     
     @objc private func applyButtonAction() {
         CurrentData.currentCategories = localCurrentCategories

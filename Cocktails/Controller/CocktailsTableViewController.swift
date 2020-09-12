@@ -8,17 +8,13 @@
 
 import UIKit
 
-struct DrinksModelWithType {
-    let drinks: [Drink]
-    let type: String
-}
-
 class CocktailsTableViewController: UITableViewController {
     
     private var categoriesForPagination = [String]()
     private var drinks = [Drink]()
     private var groupedDrinks = [DrinksModelWithType]()
-    private var isLoading = false
+    private var wasLoaded = false
+    private var lastCategory = String()
     
     private lazy var filterBarButtonItem: UIBarButtonItem = {
         return UIBarButtonItem(image: UIImage(systemName: "slider.horizontal.3", withConfiguration: UIImage.SymbolConfiguration(weight: .regular)), style: .plain, target: self, action: #selector(filterBarButtonItemPressed))
@@ -33,13 +29,16 @@ class CocktailsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
         let currentCategories = CurrentData.currentCategories
+        if !currentCategories.isEmpty {
+            lastCategory = currentCategories.last!
+        }
         
         for currentCategory in currentCategories {
             categoriesForPagination.append(currentCategory)
             getDrinks(type: currentCategory)
             break
         }
-        isLoading = true
+        wasLoaded = false
     }
     
     @objc func filterBarButtonItemPressed() {
@@ -117,74 +116,51 @@ class CocktailsTableViewController: UITableViewController {
         if groupedDrinks.count > 0 {
             cell.nameLabel.text = groupedDrinks[indexPath.section].drinks[indexPath.row].strDrink
             cell.stringImageURL = groupedDrinks[indexPath.section].drinks[indexPath.row].strDrinkThumb
-        } else {
-            
         }
         
-        let totalRows = tableView.numberOfRows(inSection: indexPath.section)
-        
-        if indexPath.row == totalRows - 1 {
-            print("last e-ment")
-            
-            if !categoriesForPagination.contains("Cocktail") {
-                getDrinks(type: "Cocktail")
-                categoriesForPagination.append("Cocktail")
-            }
-        }
+        pagination(indexPath: indexPath, tableView: tableView)
         
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
     
-    
-    //    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    //        let position = scrollView.contentOffset.y
-    //        if position > (tableView.contentSize.height - scrollView.frame.size.height) {
-    //
-    //            self.tableView.tableFooterView =  createSpinnerFooter()
-    //            let currentCategories = CurrentData.currentCategories
-    //
-    //            for currentCategory in currentCategories {
-    //                if categoriesForPagination.contains(currentCategory) {
-    //                    continue
-    //                } else {
-    //                    categoriesForPagination.append(currentCategory)
-    //                    getDrinks(type: currentCategory)
-    //                    DispatchQueue.main.async {
-    //                        self.tableView.tableFooterView = nil
-    //                    }
-    //                    break
-    //                }
-    //
-    //            }
-    //
-    //        }
-    //    }
 }
 
 
 
 
-
-// MARK: - Funcs for pagination ui
+// MARK: - Pagination
 
 extension CocktailsTableViewController {
     
-    private func createSpinnerFooter() -> UIView {
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
-        let spinner = UIActivityIndicatorView()
-        spinner.center = footerView.center
-        footerView.addSubview(spinner)
-        spinner.startAnimating()
+    private func pagination(indexPath: IndexPath, tableView: UITableView) {
+        let lastRow = tableView.numberOfRows(inSection: indexPath.section) - 1
+        let currentCategories = CurrentData.currentCategories
         
-        return footerView
+        if IndexPath(row: lastRow, section: indexPath.section) == tableView.indexPathsForVisibleRows?.last {
+            for currentCategory in currentCategories {
+                if currentCategories[indexPath.section] == lastCategory {
+                    if !wasLoaded {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.showAlert(title: "The end", message: "Subscribe to see more - 5.99 / week")
+                        }
+                        wasLoaded = true
+                    }
+                    break
+                } else if categoriesForPagination.contains(currentCategory) {
+                    continue
+                }  else {
+                    self.categoriesForPagination.append(currentCategory)
+                    self.getDrinks(type: currentCategory)
+                    break
+                }
+            }
+        } else if IndexPath(row: 1, section: indexPath.section) == tableView.indexPathsForVisibleRows?.first {
+            wasLoaded = false
+        }
     }
     
     private func showAlert(title: String, message: String) {
@@ -193,4 +169,5 @@ extension CocktailsTableViewController {
         ac.addAction(okAction)
         present(ac, animated: true)
     }
+    
 }

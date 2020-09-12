@@ -31,6 +31,9 @@ class NetworkService {
         task.resume()
     }
     
+    
+    // creating url 
+    
     private func prepareParams(type: String) -> [String: String] {
         var params = [String: String]()
         params["c"] = type
